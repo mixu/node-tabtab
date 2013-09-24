@@ -24,17 +24,6 @@ if type complete &>/dev/null; then
     IFS="$si"
   }
   complete -F _{pkgname}_completion -o default {pkgname}
-elif type compdef &>/dev/null; then
-  _{pkgname}_completion() {
-    si=$IFS
-    compadd -- $(COMP_CWORD=$((CURRENT-1)) \
-                 COMP_LINE=$BUFFER \
-                 COMP_POINT=0 \
-                 {completer} completion -- "${words[@]}" \
-                 2>/dev/null)
-    IFS=$si
-  }
-  compdef _{pkgname}_completion {pkgname}
 elif type compctl &>/dev/null; then
   _{pkgname}_completion () {
     local cword line point words si
