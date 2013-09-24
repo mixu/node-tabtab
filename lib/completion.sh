@@ -1,4 +1,3 @@
-#!/bin/bash
 ###-begin-{pkgname}-completion-###
 ### credits to npm, this file is coming directly from isaacs/npm repo
 #
@@ -13,7 +12,7 @@ COMP_WORDBREAKS=${COMP_WORDBREAKS/=/}
 COMP_WORDBREAKS=${COMP_WORDBREAKS/@/}
 export COMP_WORDBREAKS
 
-if type complete &>/dev/null; then
+if complete &>/dev/null; then
   _{pkgname}_completion () {
     local si="$IFS"
     IFS=$'\n' COMPREPLY=($(COMP_CWORD="$COMP_CWORD" \
@@ -24,18 +23,7 @@ if type complete &>/dev/null; then
     IFS="$si"
   }
   complete -F _{pkgname}_completion -o default {pkgname}
-elif type compdef &>/dev/null; then
-  _{pkgname}_completion() {
-    si=$IFS
-    compadd -- $(COMP_CWORD=$((CURRENT-1)) \
-                 COMP_LINE=$BUFFER \
-                 COMP_POINT=0 \
-                 {completer} completion -- "${words[@]}" \
-                 2>/dev/null)
-    IFS=$si
-  }
-  compdef _{pkgname}_completion {pkgname}
-elif type compctl &>/dev/null; then
+elif compctl &>/dev/null; then
   _{pkgname}_completion () {
     local cword line point words si
     read -Ac words
@@ -44,10 +32,10 @@ elif type compctl &>/dev/null; then
     read -l line
     read -ln point
     si="$IFS"
-    IFS=$'\n' reply=($(COMP_CWORD="$cword" \
-                       COMP_LINE="$line" \
-                       COMP_POINT="$point" \
-                       {completer} completion -- "${words[@]}" \
+    IFS=$'\n' reply=($(COMP_CWORD="${cword}" \
+                       COMP_LINE="${(q)line}" \
+                       COMP_POINT="${point}" \
+                       {completer} completion -- "${(qq)words[@]}" \
                        2>/dev/null)) || return $?
     IFS="$si"
   }

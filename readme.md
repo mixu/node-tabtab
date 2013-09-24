@@ -68,6 +68,10 @@ It'll enables tab-completion for the `pkgname` executable. Adding it to
 your ~/.bashrc or ~/.zshrc will make the completions available
 everywhere (not only the current shell).
 
+#### completion uninstall
+
+    compdef -d pkgname
+
 ## API
 
 ### complete
